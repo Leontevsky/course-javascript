@@ -9,7 +9,12 @@
  Пример:
    forEach([1, 2, 3], (el) => console.log(el))
  */
-function forEach(array, fn) {}
+function forEach(target, callback) {
+  for (let i = 0; i < target.length; i += 1) {
+    const element = target[i];
+    callback(element, i, target);
+  }
+}
 
 /*
  Задание 2:
@@ -20,7 +25,19 @@ function forEach(array, fn) {}
  Пример:
    map([1, 2, 3], (el) => el ** 2) // [1, 4, 9]
  */
-function map(array, fn) {}
+function map(target, callback) {
+  const result = []; // Создание массива. Результирующий массив который мы наполняем.
+  for (let i = 0; i < target.length; i += 1) {
+    const element = target[i]; // Получаем элемент массива.
+    const resultElement = callback(element, i, target); // 1 - элемент массива, 2 - индекс и 3 - сам массив.
+    result.push(resultElement);
+  }
+
+  return result; // Возврат массива.
+}
+
+// const numArray = [1, 2, 3, 4];
+// console.log(map(numArray, (i) => i % 2 === 0));
 
 /*
  Задание 3:
@@ -31,7 +48,16 @@ function map(array, fn) {}
  Пример:
    reduce([1, 2, 3], (all, current) => all + current) // 6
  */
-function reduce(array, fn, initial) {}
+function reduce(array, fn, initial) {
+  const hasInitial = typeof initial !== 'undefined';
+  let prev = hasInitial ? initial : array[0];
+
+  for (let i = hasInitial ? 0 : 1; i < array.length; i += 1) {
+    prev = fn(prev, array[i], i, array);
+  }
+
+  return prev;
+}
 
 /*
  Задание 4:
@@ -41,7 +67,14 @@ function reduce(array, fn, initial) {}
  Пример:
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
-function upperProps(obj) {}
+
+function upperProps(obj) {
+  const result = [];
+  for (const name in obj) {
+    result.push(name.toUpperCase());
+  }
+  return result;
+}
 
 /*
  Задание 5 *:
@@ -54,6 +87,13 @@ function upperProps(obj) {}
    obj.foo = 2;
    console.log(obj.foo); // 4
  */
-function createProxy(obj) {}
+function createProxy(obj) {
+  return new Proxy(obj, {
+    set(obj, key, value) {
+      obj[key] = value ** 2;
+      return true;
+    },
+  });
+}
 
 export { forEach, map, reduce, upperProps, createProxy };
