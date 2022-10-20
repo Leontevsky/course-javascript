@@ -49,8 +49,8 @@ function map(target, callback) {
    reduce([1, 2, 3], (all, current) => all + current) // 6
  */
 function reduce(array, fn, initial) {
-  const hasInitial = typeof initial !== 'undefined';
-  let prev = hasInitial ? initial : array[0];
+  const hasInitial = typeof initial !== 'undefined'; // true или false
+  let prev = hasInitial ? initial : array[0]; //
 
   for (let i = hasInitial ? 0 : 1; i < array.length; i += 1) {
     prev = fn(prev, array[i], i, array);
